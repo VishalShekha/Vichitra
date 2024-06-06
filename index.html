@@ -20,6 +20,7 @@
             <input type="password" id="password" name="password" required>
             <button type="submit">Save</button>
         </form>
+        <div id="message" class="message"></div> <!-- Message element -->
     </div>
     
     <div class="container">
@@ -56,12 +57,19 @@
                 body: JSON.stringify({ username, password, URL })
             });
 
+            const messageElement = document.getElementById('message');
             if (response.ok) {
-                alert('Password saved successfully!');
+                messageElement.textContent = 'Password saved successfully!';
+                messageElement.style.color = 'green';
                 fetchPasswords();
             } else {
-                alert('Failed to save password.');
+                messageElement.textContent = 'Failed to save password.';
+                messageElement.style.color = 'red';
             }
+            // Remove the message after 5 seconds
+            setTimeout(() => {
+                messageElement.textContent = ''; // Clear the message
+            }, 2000);
         });
 
         // Fetch passwords on page load
