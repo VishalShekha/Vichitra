@@ -82,3 +82,15 @@ li {
     font-size: 14px;
     text-align: center;
 }
+
+button.message {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    margin-top: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
