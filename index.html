@@ -7,18 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Password Saver</h1>
+    <div class="grid">
+
+        <div class="container">
+            <h1>Logger            </h1>
         <form id="passwordForm">
+            <label for="URL">URL:</label>
+            <input type="text" id="URL" name="URL" required>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Save</button>
         </form>
-        <h2>Saved Passwords</h2>
+    </div>
+    
+    <div class="container">
+        <h2>Logged</h2>
         <ul id="passwordList"></ul>
     </div>
+</div>
 
     <script>
         async function fetchPasswords() {
@@ -27,8 +35,8 @@
             const passwordList = document.getElementById('passwordList');
             passwordList.innerHTML = '';
             passwords.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `Username: ${item.username}, Password: ${item.password}`;
+                const li = document.createElement('button');
+                li.textContent = `${item.URL}`;
                 passwordList.appendChild(li);
             });
         }
@@ -38,13 +46,14 @@
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const URL = document.getElementById('URL').value;
 
             const response = await fetch('/save-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username, password, URL })
             });
 
             if (response.ok) {

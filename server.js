@@ -9,13 +9,13 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
 app.post('/save-password', (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, URL } = req.body;
 
-    if (username && password) {
-        passwords.push({ username, password });
+    if (username && password && URL) {
+        passwords.push({ username, password, URL });
         res.status(200).send('Password saved successfully');
     } else {
-        res.status(400).send('Username and password are required');
+        res.status(400).send('Username, password, and URL are required');
     }
 });
 

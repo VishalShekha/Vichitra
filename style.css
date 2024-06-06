@@ -1,15 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
 }
+.grid {
+    display: flex;
+    gap: 20px; /* Add space between the two containers */
+}
 
 .container {
-    background-color: #fff;
+    background-color: #6ad6c4;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
@@ -19,6 +23,12 @@ body {
 h1 {
     margin-bottom: 20px;
     font-size: 24px;
+    text-align: center;
+}
+
+h2 {
+    margin-top: 20px;
+    font-size: 18px;
     text-align: center;
 }
 
@@ -49,3 +59,17 @@ button {
 button:hover {
     background-color: #218838;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #f8f9fa;
+    margin-bottom: 20px; /* Add space between list items */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
