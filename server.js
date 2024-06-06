@@ -19,6 +19,17 @@ app.post('/save-password', (req, res) => {
     }
 });
 
+app.post('/delete-password', (req, res) => {
+    const { index } = req.body;
+
+    if (index !== undefined && index >= 0 && index < passwords.length) {
+        passwords.splice(index, 1);
+        res.status(200).send('Password deleted successfully');
+    } else {
+        res.status(400).send('Invalid index');
+    }
+});
+
 app.get('/get-passwords', (req, res) => {
     res.json(passwords);
 });

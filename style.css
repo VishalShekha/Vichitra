@@ -51,6 +51,7 @@ button {
     background-color: #28a745;
     color: #fff;
     border: none;
+    margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
@@ -63,12 +64,15 @@ button:hover {
 ul {
     list-style-type: none;
     padding: 0;
+    max-height: 280px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: 25px; /* Add space between list items */
 }
 
 li {
     background-color: #f8f9fa;
-    margin-bottom: 20px; /* Add space between list items */
     padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
