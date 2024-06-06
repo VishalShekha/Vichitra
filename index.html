@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Saver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Password Saver</h1>
+        <form id="passwordForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Save</button>
+        </form>
+        <h2>Saved Passwords</h2>
+        <ul id="passwordList"></ul>
+    </div>
+
+    <script>
+        async function fetchPasswords() {
+            const response = await fetch('/get-passwords');
+            const passwords = await response.json();
+            const passwordList = document.getElementById('passwordList');
+            passwordList.innerHTML = '';
+            passwords.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `Username: ${item.username}, Password: ${item.password}`;
+                passwordList.appendChild(li);
+            });
+        }
+
+        document.getElementById('passwordForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/save-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                alert('Password saved successfully!');
+                fetchPasswords();
+            } else {
+                alert('Failed to save password.');
+            }
+        });
+
+        // Fetch passwords on page load
+        fetchPasswords();
+    </script>
+</body>
+</html>
