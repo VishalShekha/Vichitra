@@ -41,6 +41,8 @@
                 btn.addEventListener('mousedown', () => handleLongPressStart(index));
                 btn.addEventListener('mouseup', handleLongPressEnd);
                 btn.addEventListener('mouseleave', handleLongPressEnd);
+                btn.addEventListener('touchstart', () => handleLongPressStart(index));
+                btn.addEventListener('touchend', handleLongPressEnd);
                 passwordList.appendChild(btn);
             });
         }
