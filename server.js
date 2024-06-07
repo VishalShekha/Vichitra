@@ -34,6 +34,14 @@ app.get('/get-passwords', (req, res) => {
     res.json(passwords);
 });
 
+app.post('/get-password', (req, res) => {
+    const { index } = req.body;
+    if (index >= 0 && index < passwords.length) {
+        res.json(passwords[index]);
+    } else {
+        res.status(400).json({ error: 'Invalid index' });
+    }
+});
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

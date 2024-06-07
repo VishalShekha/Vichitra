@@ -10,6 +10,7 @@ async function fetchPasswords() {
         btn.addEventListener('mouseup', handleLongPressEnd);
         btn.addEventListener('mouseleave', handleLongPressEnd);
         btn.addEventListener('touchstart', () => handleLongPressStart(index));
+        btn.addEventListener('click', () => onClick(index));
         btn.addEventListener('touchend', handleLongPressEnd);
         passwordList.appendChild(btn);
     });
@@ -24,6 +25,32 @@ function handleLongPressStart(index) {
         }
     }, 2000); // Long press duration in milliseconds (e.g., 2 seconds)
 }
+
+async function onClick(index) {
+    try {
+        const response = await fetch('/get-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ index })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const passwords = await response.json();
+        document.getElementById('url-shown').textContent = passwords.URL;
+        document.getElementById('username-shown').textContent = passwords.username;
+        document.getElementById('password-shown').textContent = passwords.password;
+
+    } catch (error) {
+        console.error('Error fetching password:', error);
+        alert('Error fetching password, please try again later.');
+    }
+}
+
 
 function handleLongPressEnd() {
     clearTimeout(longPressTimer);
@@ -50,7 +77,7 @@ async function deletePassword(index) {
 
     setTimeout(() => {
         messageElement.textContent = '';
-    }, 5000);
+    }, 2000);
 }
 
 document.getElementById('passwordForm').addEventListener('submit', async (event) => {
