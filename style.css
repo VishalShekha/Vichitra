@@ -20,6 +20,36 @@ body {
     width: 300px;
 }
 
+.pin-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.pin-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pin-inputs {
+    display: flex;
+    gap: 5px;
+}
+
+.pin-inputs input {
+    width: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
 h1 {
     margin-bottom: 20px;
     font-size: 24px;

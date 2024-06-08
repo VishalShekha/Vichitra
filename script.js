@@ -10,13 +10,48 @@ async function fetchPasswords() {
         btn.addEventListener('mouseup', handleLongPressEnd);
         btn.addEventListener('mouseleave', handleLongPressEnd);
         btn.addEventListener('touchstart', () => handleLongPressStart(index));
-        btn.addEventListener('click', () => onClick(index));
+        btn.addEventListener('click',() => handleButtonClick(index));
         btn.addEventListener('touchend', handleLongPressEnd);
         passwordList.appendChild(btn);
     });
 }
 
 let longPressTimer;
+
+function handleButtonClick(index) {
+    const pinDialog = document.getElementById('pin-dialog');
+    pinDialog.style.display = 'block';
+
+    document.getElementById('pin-submit').onclick = () => {
+        const pin1 = document.getElementById('pin-input-1').value;
+        const pin2 = document.getElementById('pin-input-2').value;
+        const pin3 = document.getElementById('pin-input-3').value;
+        const pin4 = document.getElementById('pin-input-4').value;
+
+        const pin = pin1 + pin2 + pin3 + pin4;
+        
+        if (pin.length === 4 && pin == 1234 ) {
+            pinDialog.style.display = 'none';
+            clearPinInputs();
+            onClick(index)
+        } else {
+            alert('Please enter a valid 4-digit PIN.');
+        }
+    };
+
+    document.getElementById('pin-cancel').onclick = () => {
+        pinDialog.style.display = 'none';
+        clearPinInputs();
+    };
+}
+
+function clearPinInputs() {
+    document.getElementById('pin-input-1').value = '';
+    document.getElementById('pin-input-2').value = '';
+    document.getElementById('pin-input-3').value = '';
+    document.getElementById('pin-input-4').value = '';
+}
+
 
 function handleLongPressStart(index) {
     longPressTimer = setTimeout(() => {
