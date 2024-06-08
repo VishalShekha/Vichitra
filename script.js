@@ -1,3 +1,36 @@
+// SAVE the passwords
+
+document.getElementById('passwordForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const URL = document.getElementById('URL').value;
+
+    const response = await fetch('/save-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password, URL })
+    });
+
+    const messageElement = document.getElementById('message');
+    if (response.ok) {
+        messageElement.textContent = 'Password saved successfully!';
+        messageElement.style.color = 'green';
+        fetchPasswords();
+    } else {
+        messageElement.textContent = 'Failed to save password.';
+        messageElement.style.color = 'red';
+    }
+
+    setTimeout(() => {
+        messageElement.textContent = ''; // Clear the message
+    }, 2000);
+});
+
+// lIST APPENDER
 async function fetchPasswords() {
     const response = await fetch('/get-passwords');
     const passwords = await response.json();
@@ -16,8 +49,50 @@ async function fetchPasswords() {
     });
 }
 
+function handleLongPressStart(index) {
+    longPressTimer = setTimeout(() => {
+        if (confirm('Do you want to delete this password?')) {
+            deletePassword(index);
+        }
+    }, 2000); // Long press duration in milliseconds (e.g., 2 seconds)
+}
+
+
+
 let longPressTimer;
 
+
+async function onClick(index) {
+    try {
+        const response = await fetch('/get-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ index })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const passwords = await response.json();
+        document.getElementById('url-shown').textContent = passwords.URL;
+        document.getElementById('username-shown').textContent = passwords.username;
+        document.getElementById('password-shown').textContent = passwords.password;
+
+    } catch (error) {
+        console.error('Error fetching password:', error);
+        alert('Error fetching password, please try again later.');
+    }
+}
+
+
+function handleLongPressEnd() {
+    clearTimeout(longPressTimer);
+}
+
+// pIN DIALOG
 function handleButtonClick(index) {
     const pinDialog = document.getElementById('pin-dialog');
     pinDialog.style.display = 'block';
@@ -52,45 +127,6 @@ function clearPinInputs() {
     document.getElementById('pin-input-4').value = '';
 }
 
-
-function handleLongPressStart(index) {
-    longPressTimer = setTimeout(() => {
-        if (confirm('Do you want to delete this password?')) {
-            deletePassword(index);
-        }
-    }, 2000); // Long press duration in milliseconds (e.g., 2 seconds)
-}
-
-async function onClick(index) {
-    try {
-        const response = await fetch('/get-password', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ index })
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const passwords = await response.json();
-        document.getElementById('url-shown').textContent = passwords.URL;
-        document.getElementById('username-shown').textContent = passwords.username;
-        document.getElementById('password-shown').textContent = passwords.password;
-
-    } catch (error) {
-        console.error('Error fetching password:', error);
-        alert('Error fetching password, please try again later.');
-    }
-}
-
-
-function handleLongPressEnd() {
-    clearTimeout(longPressTimer);
-}
-
 async function deletePassword(index) {
     const response = await fetch('/delete-password', {
         method: 'POST',
@@ -115,35 +151,6 @@ async function deletePassword(index) {
     }, 2000);
 }
 
-document.getElementById('passwordForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const URL = document.getElementById('URL').value;
-
-    const response = await fetch('/save-password', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password, URL })
-    });
-
-    const messageElement = document.getElementById('message');
-    if (response.ok) {
-        messageElement.textContent = 'Password saved successfully!';
-        messageElement.style.color = 'green';
-        fetchPasswords();
-    } else {
-        messageElement.textContent = 'Failed to save password.';
-        messageElement.style.color = 'red';
-    }
-
-    setTimeout(() => {
-        messageElement.textContent = ''; // Clear the message
-    }, 2000);
-});
 
 // Function to copy button text to clipboard
 function copyToClipboard(buttonId) {
