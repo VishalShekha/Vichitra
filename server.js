@@ -3,7 +3,14 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+const { createHash, } = require('node:crypto');
+const hash = createHash('sha256');
+
 let passwords = [];
+
+let pin = '1234';
+hash.update(pin);
+let pinHash = hash.digest('hex')
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
@@ -34,6 +41,18 @@ app.get('/get-passwords', (req, res) => {
     res.json(passwords);
 });
 
+app.post('/is-right-password', (req, res) => {
+    const { inPin } = req.body;
+    const inPinHash = createHash('sha256');
+    inPinHash.update(inPin);
+
+    if ( pinHash == inPinHash.digest('hex') ) {
+        res.status(200);
+    } else {
+        res.status(400);
+    }
+});
+
 app.post('/get-password', (req, res) => {
     const { index } = req.body;
     if (index >= 0 && index < passwords.length) {
@@ -42,6 +61,7 @@ app.post('/get-password', (req, res) => {
         res.status(400).json({ error: 'Invalid index' });
     }
 });
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

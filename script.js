@@ -57,9 +57,39 @@ function handleLongPressStart(index) {
     }, 2000); // Long press duration in milliseconds (e.g., 2 seconds)
 }
 
-
-
 let longPressTimer;
+
+function handleLongPressEnd() {
+    clearTimeout(longPressTimer);
+}
+
+// pIN DIALOG
+function handleButtonClick(index) {
+    const pinDialog = document.getElementById('pin-dialog');
+    pinDialog.style.display = 'block';
+
+    document.getElementById('pin-submit').onclick = () => {
+        const pin1 = document.getElementById('pin-input-1').value;
+        const pin2 = document.getElementById('pin-input-2').value;
+        const pin3 = document.getElementById('pin-input-3').value;
+        const pin4 = document.getElementById('pin-input-4').value;
+
+        const pin = pin1 + pin2 + pin3 + pin4;
+        
+        if (pin.length === 4 && isRightPin(pin) ) {
+            pinDialog.style.display = 'none';
+            clearPinInputs();
+            onClick(index)
+        } else {
+            alert('Please enter a valid 4-digit PIN.');
+        }
+    };
+
+    document.getElementById('pin-cancel').onclick = () => {
+        pinDialog.style.display = 'none';
+        clearPinInputs();
+    };
+}
 
 
 async function onClick(index) {
@@ -85,39 +115,24 @@ async function onClick(index) {
         console.error('Error fetching password:', error);
         alert('Error fetching password, please try again later.');
     }
+    setTimeout(() => {
+        document.getElementById('url-shown').textContent = NaN;
+        document.getElementById('username-shown').textContent = NaN;
+        document.getElementById('password-shown').textContent = NaN;
+
+    }, 5000);
 }
 
+async function isRightPin(pin) {
+    const response = await fetch('/is-right-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pin })
+    });
 
-function handleLongPressEnd() {
-    clearTimeout(longPressTimer);
-}
-
-// pIN DIALOG
-function handleButtonClick(index) {
-    const pinDialog = document.getElementById('pin-dialog');
-    pinDialog.style.display = 'block';
-
-    document.getElementById('pin-submit').onclick = () => {
-        const pin1 = document.getElementById('pin-input-1').value;
-        const pin2 = document.getElementById('pin-input-2').value;
-        const pin3 = document.getElementById('pin-input-3').value;
-        const pin4 = document.getElementById('pin-input-4').value;
-
-        const pin = pin1 + pin2 + pin3 + pin4;
-        
-        if (pin.length === 4 && pin == 1234 ) {
-            pinDialog.style.display = 'none';
-            clearPinInputs();
-            onClick(index)
-        } else {
-            alert('Please enter a valid 4-digit PIN.');
-        }
-    };
-
-    document.getElementById('pin-cancel').onclick = () => {
-        pinDialog.style.display = 'none';
-        clearPinInputs();
-    };
+    return  response;
 }
 
 function clearPinInputs() {
@@ -151,6 +166,10 @@ async function deletePassword(index) {
     }, 2000);
 }
 
+// Adding event listeners to copy text on button click
+document.getElementById('url-shown').addEventListener('click', () => copyToClipboard('url-shown'));
+document.getElementById('username-shown').addEventListener('click', () => copyToClipboard('username-shown'));
+document.getElementById('password-shown').addEventListener('click', () => copyToClipboard('password-shown'));
 
 // Function to copy button text to clipboard
 function copyToClipboard(buttonId) {
@@ -170,11 +189,6 @@ function copyToClipboard(buttonId) {
         messageElement.textContent = ''; // Clear the message
     }, 2000);
 }
-
-// Adding event listeners to copy text on button click
-document.getElementById('url-shown').addEventListener('click', () => copyToClipboard('url-shown'));
-document.getElementById('username-shown').addEventListener('click', () => copyToClipboard('username-shown'));
-document.getElementById('password-shown').addEventListener('click', () => copyToClipboard('password-shown'));
 
 // Fetch passwords on page load
 fetchPasswords();
