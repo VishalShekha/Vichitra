@@ -124,3 +124,18 @@ button.message {
     cursor: pointer;
     font-size: 16px;
 }
+
+/* Style for the button in the right bottom corner */
+.pin-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 190px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}

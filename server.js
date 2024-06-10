@@ -1,19 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
 const app = express();
 const port = 3000;
 
-const { createHash, } = require('node:crypto');
-const hash = createHash('sha256');
-
-let passwords = [];
-
-let pin = '1234';
-hash.update(pin);
-let pinHash = hash.digest('hex')
-
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
+
+let passwords = [];
+let pinHash = crypto.createHash('sha256').update('1234').digest('hex');
+
+app.post('/new-password', (req, res) => {
+    const { pin } = req.body;
+    pinHash = crypto.createHash('sha256').update(pin).digest('hex');
+    res.status(200).send('PIN changed successfully');
+});
 
 app.post('/save-password', (req, res) => {
     const { username, password, URL } = req.body;
@@ -42,14 +43,13 @@ app.get('/get-passwords', (req, res) => {
 });
 
 app.post('/is-right-password', (req, res) => {
-    const { inPin } = req.body;
-    const inPinHash = createHash('sha256');
-    inPinHash.update(inPin);
+    const { pin } = req.body;
+    const inPinHash = crypto.createHash('sha256').update(pin).digest('hex');
 
-    if ( pinHash == inPinHash.digest('hex') ) {
-        res.status(200);
+    if (pinHash === inPinHash) {
+        res.status(200).json({ valid: true });
     } else {
-        res.status(400);
+        res.status(400).json({ valid: false });
     }
 });
 

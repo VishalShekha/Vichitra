@@ -1,5 +1,3 @@
-// SAVE the passwords
-
 document.getElementById('passwordForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -30,7 +28,6 @@ document.getElementById('passwordForm').addEventListener('submit', async (event)
     }, 2000);
 });
 
-// lIST APPENDER
 async function fetchPasswords() {
     const response = await fetch('/get-passwords');
     const passwords = await response.json();
@@ -43,11 +40,13 @@ async function fetchPasswords() {
         btn.addEventListener('mouseup', handleLongPressEnd);
         btn.addEventListener('mouseleave', handleLongPressEnd);
         btn.addEventListener('touchstart', () => handleLongPressStart(index));
-        btn.addEventListener('click',() => handleButtonClick(index));
+        btn.addEventListener('click', () => handleButtonClick(index));
         btn.addEventListener('touchend', handleLongPressEnd);
         passwordList.appendChild(btn);
     });
 }
+
+let longPressTimer;
 
 function handleLongPressStart(index) {
     longPressTimer = setTimeout(() => {
@@ -57,29 +56,26 @@ function handleLongPressStart(index) {
     }, 2000); // Long press duration in milliseconds (e.g., 2 seconds)
 }
 
-let longPressTimer;
-
 function handleLongPressEnd() {
     clearTimeout(longPressTimer);
 }
 
-// pIN DIALOG
 function handleButtonClick(index) {
     const pinDialog = document.getElementById('pin-dialog');
     pinDialog.style.display = 'block';
 
-    document.getElementById('pin-submit').onclick = () => {
+    document.getElementById('pin-submit').onclick = async () => {
         const pin1 = document.getElementById('pin-input-1').value;
         const pin2 = document.getElementById('pin-input-2').value;
         const pin3 = document.getElementById('pin-input-3').value;
         const pin4 = document.getElementById('pin-input-4').value;
 
         const pin = pin1 + pin2 + pin3 + pin4;
-        
-        if (pin.length === 4 && isRightPin(pin) ) {
+
+        if (pin.length === 4 && await isRightPin(pin)) {
             pinDialog.style.display = 'none';
             clearPinInputs();
-            onClick(index)
+            onClick(index);
         } else {
             alert('Please enter a valid 4-digit PIN.');
         }
@@ -91,7 +87,6 @@ function handleButtonClick(index) {
     };
 }
 
-
 async function onClick(index) {
     try {
         const response = await fetch('/get-password', {
@@ -101,7 +96,7 @@ async function onClick(index) {
             },
             body: JSON.stringify({ index })
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -132,7 +127,8 @@ async function isRightPin(pin) {
         body: JSON.stringify({ pin })
     });
 
-    return  response;
+    const result = await response.json();
+    return result.valid;
 }
 
 function clearPinInputs() {
@@ -166,12 +162,10 @@ async function deletePassword(index) {
     }, 2000);
 }
 
-// Adding event listeners to copy text on button click
 document.getElementById('url-shown').addEventListener('click', () => copyToClipboard('url-shown'));
 document.getElementById('username-shown').addEventListener('click', () => copyToClipboard('username-shown'));
 document.getElementById('password-shown').addEventListener('click', () => copyToClipboard('password-shown'));
 
-// Function to copy button text to clipboard
 function copyToClipboard(buttonId) {
     const button = document.getElementById(buttonId);
     const messageElement = document.getElementById('copy-message');
@@ -190,5 +184,67 @@ function copyToClipboard(buttonId) {
     }, 2000);
 }
 
-// Fetch passwords on page load
+document.getElementById('pin-button').addEventListener('click', () => changePin());
+
+async function changePin() {
+    const pinDialog = document.getElementById('pin-dialog');
+    const pinDialogContent = document.getElementById('pin-input');
+    pinDialogContent.textContent = 'Enter the Old Pin : ';
+    pinDialog.style.display = 'block';
+
+    document.getElementById('pin-submit').onclick = async () => {
+        const pin1 = document.getElementById('pin-input-1').value;
+        const pin2 = document.getElementById('pin-input-2').value;
+        const pin3 = document.getElementById('pin-input-3').value;
+        const pin4 = document.getElementById('pin-input-4').value;
+
+        const oldPin = pin1 + pin2 + pin3 + pin4;
+
+        if (oldPin.length === 4 && await isRightPin(oldPin)) {
+            clearPinInputs();
+            pinDialogContent.textContent = 'Enter the New Pin : ';
+            
+            document.getElementById('pin-submit').onclick = async () => {
+                const newPin1 = document.getElementById('pin-input-1').value;
+                const newPin2 = document.getElementById('pin-input-2').value;
+                const newPin3 = document.getElementById('pin-input-3').value;
+                const newPin4 = document.getElementById('pin-input-4').value;
+
+                const newPin = newPin1 + newPin2 + newPin3 + newPin4;
+
+                if (newPin.length === 4) {
+                    await newPassword(newPin);
+                    pinDialog.style.display = 'none';
+                    clearPinInputs();
+                } else {
+                    alert('Please enter a valid 4-digit new PIN.');
+                }
+            };
+        } else {
+            alert('Please enter a valid 4-digit old PIN.');
+        }
+    };
+
+    document.getElementById('pin-cancel').onclick = () => {
+        pinDialog.style.display = 'none';
+        clearPinInputs();
+    };
+}
+
+async function newPassword(pin) {
+    const response = await fetch('/new-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pin })
+    });
+
+    if (response.ok) {
+        alert('PIN changed successfully.');
+    } else {
+        alert('Error changing PIN.');
+    }
+}
+
 fetchPasswords();
