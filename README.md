@@ -1,12 +1,12 @@
-Getting Started
+# Getting Started
 
-Prerequisites
+# Prerequisites
 Node.js
 npm (Node Package Manager)
 
-Installation
+## Installation
 Clone the repository:
-$ git clone https://github.com/your-username/password-manager.git
+$ git clone https://github.com/VishalShekha/Vichitra.git
 
 Navigate to the project directory:
 $ cd password-manager
