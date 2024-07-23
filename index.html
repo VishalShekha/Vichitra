@@ -1,59 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Password Saver</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="grid">
-        <div class="container">
-            <h1>Logger</h1>
-            <form id="passwordForm">
-                <label for="URL">URL:</label>
-                <input type="text" id="URL" name="URL" required>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Save</button>
-            </form>
-            <div id="message" class="message"></div> 
-        </div>
+      <div class="container">
+        <h1>Logger</h1>
+        <form id="passwordForm">
+          <label for="URL">URL:</label>
+          <input type="text" id="URL" name="URL" required />
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+          <button type="submit">Save</button>
+        </form>
+        <div id="message" class="message"></div>
+      </div>
 
-        <div class="container">
-            <h2>Logged</h2>
-            <ul id="passwordList"></ul>
-            <div id="del-message" class="message"></div> 
-        </div>
-        <div class="container">
-            <h2>Here Here</h2>
-            <button id="url-shown" class="message">NaN</button> 
-            <button id="username-shown" class="message">NaN</button> 
-            <button id="password-shown" class="message">NaN</button> 
-            <div id="copy-message" class="message"></div> 
-        </div>
+      <div class="container">
+        <h2>Logged</h2>
+        <ul id="passwordList"></ul>
+        <div id="del-message" class="message"></div>
+      </div>
+      <div class="container">
+        <h2>Shown here</h2>
+        <button id="url-shown" class="message">NaN</button>
+        <button id="username-shown" class="message">NaN</button>
+        <button id="password-shown" class="message">NaN</button>
+        <div id="copy-message" class="message"></div>
+      </div>
     </div>
 
     <div id="pin-dialog" class="pin-dialog">
-        <div class="pin-dialog-content">
-            <label for="pin-input-1" id = "pin-input">Enter PIN:</label>
-            <div class="pin-inputs">
-                <input type="text" id="pin-input-1" maxlength="1">
-                <input type="text" id="pin-input-2" maxlength="1">
-                <input type="text" id="pin-input-3" maxlength="1">
-                <input type="text" id="pin-input-4" maxlength="1">
-            </div>
-            <button id="pin-submit">Submit</button>
-            <button id="pin-cancel">Cancel</button>
+      <div class="pin-dialog-content">
+        <label for="pin-input-1" id="pin-input">Enter PIN:</label>
+        <div class="pin-inputs">
+          <input type="text" id="pin-input-1" maxlength="1" />
+          <input type="text" id="pin-input-2" maxlength="1" />
+          <input type="text" id="pin-input-3" maxlength="1" />
+          <input type="text" id="pin-input-4" maxlength="1" />
         </div>
+        <button id="pin-submit">Submit</button>
+        <button id="pin-cancel">Cancel</button>
+      </div>
     </div>
 
     <!-- Add the button for the right bottom corner -->
     <button id="pin-button" class="pin-button">Change pin</button>
 
     <script src="script.js"></script>
-
-</body>
+  </body>
 </html>
