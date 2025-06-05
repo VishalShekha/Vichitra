@@ -86,25 +86,7 @@ A secure and user-friendly web application for managing passwords, built as a fu
 - Ensure the PostgreSQL database is properly secured in production (e.g., use environment variables for sensitive data).
 - The front-end includes basic password strength validation for user feedback.
 
-## Future Improvements
-
-- Add session management or JWT for persistent authentication.
-- Implement password encryption for stored credentials.
-- Enhance the UI with a modern CSS framework like Tailwind CSS or Bootstrap.
-- Add password generation functionality.
-- Deploy the application to a cloud platform for accessibility.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure code follows the project's style guidelines and includes appropriate tests.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgements
 
 - Built as a learning project to explore full-stack development with Node.js, PostgreSQL, and Docker.
 - Special thanks to the open-source community for providing tools and libraries used in this project.
-
-© 2025 Vishal. All Rights Reserved.
