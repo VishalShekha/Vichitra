@@ -1,141 +1,74 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #000000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-.grid {
-    display: flex;
-    gap: 20px; /* Add space between the two containers */
+  background: url('./public/Green Aesthetic Background Landscape.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.container {
-    background-color: #6ad6c4;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    width: 300px;
+.grid-container {
+  display: grid;
+  place-items: center; 
+  height: 100%; 
+  width: 100%;
+  padding: 20px;
 }
 
-.pin-dialog {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border: 1px solid #ccc;
-    padding: 20px;
-    z-index: 1000;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+  text-align: center;
+  width: 100%;
+  max-width: 400px; 
 }
 
-.pin-dialog-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.grid-item h2 {
+  font-size: 2em;
+  color: #2a2a2a;
+  margin-bottom: 20px;
 }
 
-.pin-inputs {
-    display: flex;
-    gap: 5px;
+.input-boxes {
+  padding: 15px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 350px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: border 0.3s ease;
 }
 
-.pin-inputs input {
-    width: 40px;
-    text-align: center;
-    font-size: 20px;
+.input-boxes:focus {
+  border-color: #6f9e3f; 
 }
 
-h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
+.submit-button {
+  padding: 15px 30px;
+  color: white;
+  background-color: #6f9e3f;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-h2 {
-    margin-top: 20px;
-    font-size: 18px;
-    text-align: center;
+.submit-button:hover {
+  background-color: #5b8a32;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #218838;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    max-height: 280px; /* Set a maximum height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    margin-top: 25px; /* Add space between list items */
-}
-
-li {
-    background-color: #f8f9fa;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.message {
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
-}
-
-button.message {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    margin-top: 40px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* Style for the button in the right bottom corner */
-.pin-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 190px;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1000;
+@media screen and (max-width: 768px) {
+  .input-boxes {
+      width: 80vw;
+  }
+  .submit-button {
+      width: 80vw;
+  }
 }
